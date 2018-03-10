@@ -90,4 +90,17 @@
         android:layout_alignBaseline="@+id/textView"
         android:layout_alignBottom="@+id/textView"
         android:layout_centerHorizontal="true" />
+
+    <Button
+        android:text="复制"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:id="@+id/copy"
+        android:layout_below="@+id/editResult"
+        android:layout_alignLeft="@+id/editResult"
+        android:layout_alignStart="@+id/editResult"
+        android:layout_alignRight="@+id/editResult"
+        android:layout_alignEnd="@+id/editResult"
+        android:onClick="onClick"/>
 </RelativeLayout>

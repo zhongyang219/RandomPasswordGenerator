@@ -1,5 +1,7 @@
 package com.zhong.randompasswordgenerator;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.CheckBox;
@@ -25,8 +27,9 @@ public class MainActivity extends AppCompatActivity
 {
     //私有的字段
     protected List m_option_check = new ArrayList();
-    private final String m_specialChar = "~!@#$%^&*()_-+={}[]|\\<>/?";   //特殊字符
+    final String m_specialChar = "~!@#$%^&*()_-+={}[]|\\<>/?";   //特殊字符
     Random m_random = new Random();
+    final int MAX_LENGTH = 128;
 
     //控件变量
     private CheckBox m_numbers_chk;
@@ -53,7 +56,8 @@ public class MainActivity extends AppCompatActivity
 
     public void onClick(View view)
     {
-        if(view.getId()==R.id.button_generate)
+        int id = view.getId();
+        if(id==R.id.button_generate)
         {
             //获取复选框的选中状态
             m_option_check.clear();
@@ -92,6 +96,11 @@ public class MainActivity extends AppCompatActivity
                 Toast.makeText(this, "密码长度不能为0！", Toast.LENGTH_SHORT).show();
                 return;
             }
+            if(length>MAX_LENGTH)
+            {
+                Toast.makeText(this, String.format("密码的长度不能超过 %d！", MAX_LENGTH), Toast.LENGTH_SHORT).show();
+                return;
+            }
             String password = "";
 
             for (int i = 0; i< length; i++)
@@ -118,6 +127,16 @@ public class MainActivity extends AppCompatActivity
                 password += currentChar;
             }
             m_result_edit.setText(password);
+        }
+        else if(id == R.id.copy)
+        {
+            ClipboardManager myClipboard;
+            myClipboard = (ClipboardManager)getSystemService(CLIPBOARD_SERVICE);
+            ClipData myClip;
+            String text = m_result_edit.getText().toString();
+            myClip = ClipData.newPlainText("text", text);
+            myClipboard.setPrimaryClip(myClip);
+            Toast.makeText(this, "密码已经复制到剪贴板。", Toast.LENGTH_SHORT).show();
         }
     }
 }
