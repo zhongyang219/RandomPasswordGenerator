@@ -3,6 +3,8 @@ package com.zhong.randompasswordgenerator;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.CheckBox;
 import android.view.View;
@@ -137,6 +139,13 @@ public class MainActivity extends AppCompatActivity
             myClip = ClipData.newPlainText("text", text);
             myClipboard.setPrimaryClip(myClip);
             Toast.makeText(this, "密码已经复制到剪贴板。", Toast.LENGTH_SHORT).show();
+        }
+
+        //点击了“密码列表”
+        else if (id == R.id.passwordListBtn)
+        {
+            Intent intent = new Intent(this, PasswordList.class);
+            startActivity(intent);
         }
     }
 }
