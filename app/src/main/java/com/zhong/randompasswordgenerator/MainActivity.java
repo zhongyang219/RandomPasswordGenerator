@@ -48,8 +48,8 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         //将控件变量与控件ID关联
-        m_numbers_chk = (CheckBox)findViewById(R.id.check_number);
-        m_capital_chk = (CheckBox)findViewById(R.id.check_captal);
+        m_numbers_chk = findViewById(R.id.check_number);
+        m_capital_chk = findViewById(R.id.check_captal);
         m_lowercase_chk = (CheckBox)findViewById(R.id.check_lowercase);
         m_special_chars_che = (CheckBox)findViewById(R.id.check_specal_char);
         m_length_edit = (EditText)findViewById(R.id.edit_length);
