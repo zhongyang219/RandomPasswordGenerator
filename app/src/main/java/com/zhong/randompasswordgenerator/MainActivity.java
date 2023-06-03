@@ -1,18 +1,18 @@
 package com.zhong.randompasswordgenerator;
 
+import android.annotation.SuppressLint;
 import android.content.ClipData;
 import android.content.ClipboardManager;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.CheckBox;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 //用于表示字符类型的枚举
@@ -28,7 +28,7 @@ enum CharType
 public class MainActivity extends AppCompatActivity
 {
     //私有的字段
-    protected List m_option_check = new ArrayList();
+    protected ArrayList<CharType> m_option_check = new ArrayList<>();
     final String m_specialChar = "~!@#$%^&*()_-+={}[]|\\<>/?";   //特殊字符
     Random m_random = new Random();
     final int MAX_LENGTH = 128;
@@ -50,12 +50,13 @@ public class MainActivity extends AppCompatActivity
         //将控件变量与控件ID关联
         m_numbers_chk = findViewById(R.id.check_number);
         m_capital_chk = findViewById(R.id.check_captal);
-        m_lowercase_chk = (CheckBox)findViewById(R.id.check_lowercase);
-        m_special_chars_che = (CheckBox)findViewById(R.id.check_specal_char);
-        m_length_edit = (EditText)findViewById(R.id.edit_length);
-        m_result_edit = (EditText)findViewById(R.id.editResult);
+        m_lowercase_chk = findViewById(R.id.check_lowercase);
+        m_special_chars_che = findViewById(R.id.check_specal_char);
+        m_length_edit = findViewById(R.id.edit_length);
+        m_result_edit = findViewById(R.id.editResult);
     }
 
+    @SuppressLint("DefaultLocale")
     public void onClick(View view)
     {
         int id = view.getId();
@@ -83,7 +84,7 @@ public class MainActivity extends AppCompatActivity
                 return;
             }
             //获取密码的长度
-            int length = 0;
+            int length;
             try
             {
                 length = Integer.parseInt(m_length_edit.getText().toString());
@@ -103,12 +104,12 @@ public class MainActivity extends AppCompatActivity
                 Toast.makeText(this, String.format("密码的长度不能超过 %d！", MAX_LENGTH), Toast.LENGTH_SHORT).show();
                 return;
             }
-            String password = "";
+            StringBuilder password = new StringBuilder();
 
             for (int i = 0; i< length; i++)
             {
                 int index = m_random.nextInt(m_option_check.size());  //随机确定生成哪一种字符
-                CharType charType = (CharType)m_option_check.get(index);
+                CharType charType = m_option_check.get(index);
                 char currentChar = '\0';
                 switch(charType)
                 {
@@ -126,9 +127,9 @@ public class MainActivity extends AppCompatActivity
                         currentChar = m_specialChar.charAt(random);     //随机生成一个特殊字符
                         break;
                 }
-                password += currentChar;
+                password.append(currentChar);
             }
-            m_result_edit.setText(password);
+            m_result_edit.setText(password.toString());
         }
         else if(id == R.id.copy)
         {
