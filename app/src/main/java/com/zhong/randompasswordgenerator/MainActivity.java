@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
@@ -37,7 +38,7 @@ public class MainActivity extends AppCompatActivity
     private CheckBox m_numbers_chk;
     private CheckBox m_capital_chk;
     private CheckBox m_lowercase_chk;
-    private CheckBox m_special_chars_che;
+    private CheckBox m_special_chars_chk;
     private EditText m_length_edit;
     private EditText m_result_edit;
 
@@ -51,9 +52,11 @@ public class MainActivity extends AppCompatActivity
         m_numbers_chk = findViewById(R.id.check_number);
         m_capital_chk = findViewById(R.id.check_captal);
         m_lowercase_chk = findViewById(R.id.check_lowercase);
-        m_special_chars_che = findViewById(R.id.check_specal_char);
+        m_special_chars_chk = findViewById(R.id.check_specal_char);
         m_length_edit = findViewById(R.id.edit_length);
         m_result_edit = findViewById(R.id.editResult);
+
+        LoadConfig();
     }
 
     @SuppressLint("DefaultLocale")
@@ -70,7 +73,7 @@ public class MainActivity extends AppCompatActivity
                 m_option_check.add(CharType.CK_CAPITAL);
             if(m_lowercase_chk.isChecked())
                 m_option_check.add(CharType.CK_LOWERCASE);
-            if(m_special_chars_che.isChecked())
+            if(m_special_chars_chk.isChecked())
                 m_option_check.add(CharType.CK_SPECIAL_CHAR);
 
             if(m_length_edit.getText().length()==0)
@@ -130,6 +133,7 @@ public class MainActivity extends AppCompatActivity
                 password.append(currentChar);
             }
             m_result_edit.setText(password.toString());
+            SaveConfig();
         }
         else if(id == R.id.copy)
         {
@@ -148,5 +152,27 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent(this, PasswordList.class);
             startActivity(intent);
         }
+    }
+
+    @SuppressLint("SetTextI18n")
+    private void LoadConfig()
+    {
+        SharedPreferences preferences = getPreferences(MODE_PRIVATE);
+        m_numbers_chk.setChecked(preferences.getBoolean("numbers_chk", true));
+        m_capital_chk.setChecked(preferences.getBoolean("capital_chk", false));
+        m_lowercase_chk.setChecked(preferences.getBoolean("lowercase_chk", true));
+        m_special_chars_chk.setChecked(preferences.getBoolean("special_chars_chk", false));
+        m_length_edit.setText(Integer.toString(preferences.getInt("length", 8)));
+    }
+
+    private void SaveConfig()
+    {
+        SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
+        editor.putBoolean("numbers_chk", m_numbers_chk.isChecked());
+        editor.putBoolean("capital_chk", m_capital_chk.isChecked());
+        editor.putBoolean("lowercase_chk", m_lowercase_chk.isChecked());
+        editor.putBoolean("special_chars_chk", m_special_chars_chk.isChecked());
+        editor.putInt("length", Integer.parseInt(m_length_edit.getText().toString()));
+        editor.apply();
     }
 }

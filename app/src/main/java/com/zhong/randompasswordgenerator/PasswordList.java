@@ -78,6 +78,12 @@ public class PasswordList extends AppCompatActivity
         passwordList.add(new PasswordListItem("测试密码2", "233333"));
     }
 
+    @Override
+    protected void onDestroy()
+    {
+        super.onDestroy();
+    }
+
     private void CopyStringToClipBoard(String text)
     {
         ClipboardManager myClipboard;
