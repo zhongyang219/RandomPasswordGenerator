@@ -1,24 +1,18 @@
 package com.zhong.randompasswordgenerator;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.List;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class PasswordList extends AppCompatActivity
 {
-    private List<PasswordListItem> passwordList = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -36,17 +30,14 @@ public class PasswordList extends AppCompatActivity
             actionBar.setDisplayHomeAsUpEnabled(true);//给左上角图标的左边加上一个返回的图标
         }
 
-        //初始化密码列表数据
-        InitPasswordData();
-
         //设置适配器
-        PasswordListAdapter adapter = new PasswordListAdapter(this, R.layout.password_list_item, passwordList);
+        PasswordListAdapter adapter = new PasswordListAdapter(this, R.layout.password_list_item, GlobalData.getInstance().GetPasswordList());
         ListView listView = (ListView) findViewById(R.id.passwordListView);
         listView.setAdapter(adapter);
 
         //设置列表响应点击事件
         listView.setOnItemClickListener((parent, view, position, id) -> {
-            PasswordListItem passwordItem = passwordList.get(position);
+            PasswordListItem passwordItem = GlobalData.getInstance().GetPasswordList().get(position);
             //复制密码到剪贴版
             CopyStringToClipBoard(passwordItem.GetPassword());
         });
@@ -70,12 +61,6 @@ public class PasswordList extends AppCompatActivity
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    private void InitPasswordData()
-    {
-        passwordList.add(new PasswordListItem("测试密码", "123456"));
-        passwordList.add(new PasswordListItem("测试密码2", "233333"));
     }
 
     @Override

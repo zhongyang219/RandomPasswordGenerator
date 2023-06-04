@@ -20,27 +20,34 @@
         android:id="@+id/check_number" />
 
     <Button
-        android:text="生成密码"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="29dp"
         android:id="@+id/button_generate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_above="@+id/editResult"
-        android:layout_alignRight="@+id/editResult"
         android:layout_alignEnd="@+id/editResult"
-        android:layout_toRightOf="@+id/textView"
+        android:layout_alignRight="@+id/editResult"
+        android:layout_marginStart="3dp"
+        android:layout_marginLeft="3dp"
+        android:layout_marginEnd="-1dp"
+        android:layout_marginRight="-1dp"
+        android:layout_marginBottom="116dp"
         android:layout_toEndOf="@+id/textView"
-        android:onClick="onClick" />
+        android:layout_toRightOf="@+id/textView"
+        android:onClick="onClick"
+        android:text="生成密码" />
 
     <EditText
+        android:id="@+id/editResult"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:id="@+id/editResult"
         android:layout_centerVertical="true"
+        android:layout_marginStart="3dp"
+        android:layout_marginLeft="3dp"
+        android:layout_toEndOf="@+id/textView"
         android:layout_toRightOf="@+id/textView"
-        android:layout_toEndOf="@+id/textView" />
+        android:ems="10"
+        android:onClick="onClick"
+        android:inputType="textPersonName" />
 
     <CheckBox
         android:text="包含大写字母"
@@ -108,10 +115,24 @@
         android:id="@+id/passwordListBtn"
         android:layout_width="212dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/copy"
+        android:layout_below="@id/addToListBtn"
         android:layout_alignStart="@+id/copy"
-        android:layout_marginStart="-1dp"
-        android:layout_marginTop="36dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="56dp"
         android:onClick="onClick"
         android:text="密码列表" />
+
+    <Button
+        android:id="@+id/addToListBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/copy"
+        android:layout_alignStart="@+id/copy"
+        android:layout_alignEnd="@+id/copy"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="0dp"
+        android:onClick="onClick"
+        android:text="添加到密码列表" />
+
 </RelativeLayout>

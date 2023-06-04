@@ -1,6 +1,7 @@
 package com.zhong.randompasswordgenerator;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Intent;
@@ -57,6 +58,7 @@ public class MainActivity extends AppCompatActivity
         m_result_edit = findViewById(R.id.editResult);
 
         LoadConfig();
+        GlobalData.getInstance().LoadPasswordList(this);
     }
 
     @SuppressLint("DefaultLocale")
@@ -134,6 +136,7 @@ public class MainActivity extends AppCompatActivity
             }
             m_result_edit.setText(password.toString());
             SaveConfig();
+            GlobalData.getInstance().SavePasswordList(this);
         }
         else if(id == R.id.copy)
         {
@@ -151,6 +154,46 @@ public class MainActivity extends AppCompatActivity
         {
             Intent intent = new Intent(this, PasswordList.class);
             startActivity(intent);
+        }
+
+        //点击了“添加到密码列表”
+        else if (id == R.id.addToListBtn)
+        {
+            String passwordValue = m_result_edit.getText().toString();
+            if (passwordValue.isEmpty())
+            {
+                Toast.makeText(this, "请先生成密码！", Toast.LENGTH_SHORT).show();
+            }
+            else
+            {
+                View dialog_view = getLayoutInflater().inflate(R.layout.input_dialog_view, null);
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("输入密码名称")
+                        .setView(dialog_view)
+                        .setPositiveButton("确定", (dialog, which) -> {
+                            EditText editText = dialog_view.findViewById(R.id.input_dialog_text_edit);
+                            if (editText != null)
+                            {
+                                String passwordName = editText.getText().toString();
+                                if (passwordName.isEmpty())
+                                {
+                                    Toast.makeText(this, "请输入密码名称！", Toast.LENGTH_SHORT).show();
+                                }
+                                else
+                                {                                //添加到密码列表
+                                    GlobalData.getInstance().AddPassword(passwordName, passwordValue);
+                                    String tip = String.format("密码 %s 已经添加到密码列表。", passwordValue);
+                                    Toast.makeText(this, tip, Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        })
+                        .setNegativeButton("取消", (dialog, which) -> {
+                            dialog.dismiss();
+                        })
+                        .create()
+                        .show()
+                ;
+            }
         }
     }
 
