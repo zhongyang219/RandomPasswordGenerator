@@ -25,7 +25,7 @@ public class PasswordList extends AppCompatActivity
         setContentView(R.layout.activity_password_list);
 
         //设置页面标题
-        this.setTitle("密码列表");
+        this.setTitle(getString(R.string.password_list));
 
         //添加返回按钮
         ActionBar actionBar = getSupportActionBar();
@@ -80,7 +80,6 @@ public class PasswordList extends AppCompatActivity
         ClipData myClip;
         myClip = ClipData.newPlainText("text", text);
         myClipboard.setPrimaryClip(myClip);
-        Toast.makeText(this, "密码已经复制到剪贴板。", Toast.LENGTH_SHORT).show();
     }
 
     private void ShowPopupMenu(View view, int position)
@@ -102,23 +101,24 @@ public class PasswordList extends AppCompatActivity
             else if (item.getItemId() == R.id.copyPassword)
             {
                 CopyStringToClipBoard(passwordItem.GetPassword());
+                Toast.makeText(this, getString(R.string.password_copied_info), Toast.LENGTH_SHORT).show();
             }
             //点击了编辑名称
             else if (item.getItemId() == R.id.editPasswordName)
             {
                 View dialog_view = getLayoutInflater().inflate(R.layout.input_dialog_view, null);
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle("输入密码名称")
+                builder.setTitle(getString(R.string.input_password_name_tip))
                         .setView(dialog_view);
                 //获取对话框中的文本输入框
                 EditText editText = dialog_view.findViewById(R.id.input_dialog_text_edit);
                 //向文本输入框中填入原来的名称
                 editText.setText(passwordItem.GetName());
-                builder.setPositiveButton("确定", (dialog, which) -> {
+                builder.setPositiveButton(getString(R.string.ok), (dialog, which) -> {
                         String passwordName = editText.getText().toString();
                         if (passwordName.isEmpty())
                         {
-                            Toast.makeText(this, "请输入密码名称！", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(this, getString(R.string.input_password_name_warning), Toast.LENGTH_SHORT).show();
                         }
                         else if (!passwordName.equals(passwordItem.GetName()))
                         {
@@ -126,7 +126,7 @@ public class PasswordList extends AppCompatActivity
                             adapter.notifyDataSetChanged();
                         }
                     })
-                    .setNegativeButton("取消", (dialog, which) -> dialog.dismiss())
+                    .setNegativeButton(getString(R.string.cancel), (dialog, which) -> dialog.dismiss())
                     .create()
                     .show()
                 ;

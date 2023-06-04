@@ -80,12 +80,12 @@ public class MainActivity extends AppCompatActivity
 
             if(m_length_edit.getText().length()==0)
             {
-                Toast.makeText(this, "请输入要生成的密码长度！", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.input_password_length_warning), Toast.LENGTH_SHORT).show();
                 return;
             }
             if(m_option_check.size()==0)
             {
-                Toast.makeText(this, "请选择一种要包含的字符类型！", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.select_character_type_warning), Toast.LENGTH_SHORT).show();
                 return;
             }
             //获取密码的长度
@@ -96,17 +96,17 @@ public class MainActivity extends AppCompatActivity
             }
             catch (NumberFormatException e)
             {
-                Toast.makeText(this, "你只能在“密码位数”文本框中输入数字！", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.numbers_only_warning), Toast.LENGTH_SHORT).show();
                 return;
             }
             if(length == 0)
             {
-                Toast.makeText(this, "密码长度不能为0！", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.password_length_zero_warning), Toast.LENGTH_SHORT).show();
                 return;
             }
             if(length>MAX_LENGTH)
             {
-                Toast.makeText(this, String.format("密码的长度不能超过 %d！", MAX_LENGTH), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.password_length_exceed_warning, MAX_LENGTH), Toast.LENGTH_SHORT).show();
                 return;
             }
             StringBuilder password = new StringBuilder();
@@ -145,7 +145,7 @@ public class MainActivity extends AppCompatActivity
             String text = m_result_edit.getText().toString();
             myClip = ClipData.newPlainText("text", text);
             myClipboard.setPrimaryClip(myClip);
-            Toast.makeText(this, "密码已经复制到剪贴板。", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.password_copied_info), Toast.LENGTH_SHORT).show();
         }
 
         //点击了“密码列表”
@@ -161,29 +161,29 @@ public class MainActivity extends AppCompatActivity
             String passwordValue = m_result_edit.getText().toString();
             if (passwordValue.isEmpty())
             {
-                Toast.makeText(this, "请先生成密码！", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.password_not_generated_warning), Toast.LENGTH_SHORT).show();
             }
             else
             {
                 View dialog_view = getLayoutInflater().inflate(R.layout.input_dialog_view, null);
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle("输入密码名称")
+                builder.setTitle(getString(R.string.input_password_name_tip))
                         .setView(dialog_view)
-                        .setPositiveButton("确定", (dialog, which) -> {
+                        .setPositiveButton(getString(R.string.ok), (dialog, which) -> {
                             EditText editText = dialog_view.findViewById(R.id.input_dialog_text_edit);
                             String passwordName = editText.getText().toString();
                             if (passwordName.isEmpty())
                             {
-                                Toast.makeText(this, "请输入密码名称！", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(this, getString(R.string.input_password_name_warning), Toast.LENGTH_SHORT).show();
                             }
                             else
                             {                                //添加到密码列表
                                 GlobalData.getInstance().AddPassword(passwordName, passwordValue);
-                                String tip = String.format("密码 %s 已经添加到密码列表。", passwordValue);
+                                String tip = getString(R.string.password_added_tip, passwordValue);
                                 Toast.makeText(this, tip, Toast.LENGTH_SHORT).show();
                                 GlobalData.getInstance().SavePasswordList(this);}
                         })
-                        .setNegativeButton("取消", (dialog, which) -> dialog.dismiss())
+                        .setNegativeButton(getString(R.string.cancel), (dialog, which) -> dialog.dismiss())
                         .create()
                         .show()
                 ;
