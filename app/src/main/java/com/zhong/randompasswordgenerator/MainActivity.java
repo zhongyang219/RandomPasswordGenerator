@@ -136,7 +136,6 @@ public class MainActivity extends AppCompatActivity
             }
             m_result_edit.setText(password.toString());
             SaveConfig();
-            GlobalData.getInstance().SavePasswordList(this);
         }
         else if(id == R.id.copy)
         {
@@ -182,7 +181,7 @@ public class MainActivity extends AppCompatActivity
                                 GlobalData.getInstance().AddPassword(passwordName, passwordValue);
                                 String tip = String.format("密码 %s 已经添加到密码列表。", passwordValue);
                                 Toast.makeText(this, tip, Toast.LENGTH_SHORT).show();
-                            }
+                                GlobalData.getInstance().SavePasswordList(this);}
                         })
                         .setNegativeButton("取消", (dialog, which) -> dialog.dismiss())
                         .create()

@@ -6,7 +6,6 @@ import android.util.Xml;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -42,7 +41,6 @@ public class GlobalData
     void LoadPasswordList(Context context)
     {
         FileInputStream in = null;
-        BufferedReader reader = null;
         try
         {
             in = context.openFileInput("passwordList.xml");
@@ -52,8 +50,36 @@ public class GlobalData
                 XmlPullParser parser = Xml.newPullParser();
                 parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
                 parser.setInput(in, null);
-                parser.nextTag();
-
+//                parser.nextTag();
+                int eventType = parser.getEventType();
+                PasswordListItem passwordItem = null;
+                while (eventType != XmlPullParser.END_DOCUMENT)
+                {
+                    switch (eventType)
+                    {
+                        case XmlPullParser.START_TAG:
+                            //开始标签,parser获取当前事件对应的元素名字
+                            if ("password".equals(parser.getName()))
+                            {
+                                String passwordName = parser.getAttributeValue(null, "name");
+                                String passwordValue = parser.getAttributeValue(null, "value");
+                                passwordItem = new PasswordListItem(passwordName, passwordValue);
+                            }
+                            break;
+                        case XmlPullParser.END_TAG:
+                            if ("password".equals(parser.getName()))
+                            {
+                                if (passwordItem != null)
+                                    passwordList.add(passwordItem);
+                                break;
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                    //调用parser.next()方法解析下一个元素
+                    eventType = parser.next();
+                }
             }
             catch (XmlPullParserException ignored)
             {
@@ -66,18 +92,6 @@ public class GlobalData
         catch (IOException e)
         {
             e.printStackTrace();
-        }
-        finally
-        {
-            try
-            {
-                if (reader != null)
-                    reader.close();
-            }
-            catch (IOException e)
-            {
-                e.printStackTrace();
-            }
         }
     }
 
@@ -117,5 +131,4 @@ public class GlobalData
             }
         }
     }
-
 }
