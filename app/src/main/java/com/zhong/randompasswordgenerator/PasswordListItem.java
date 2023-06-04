@@ -20,4 +20,9 @@ public class PasswordListItem
     {
         return password;
     }
+
+    public void SetName(String name)
+    {
+        this.name = name;
+    }
 }

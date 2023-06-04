@@ -47,7 +47,8 @@ public class GlobalData
         {
             in = context.openFileInput("passwordList.xml");
             //解析xml
-            try {
+            try
+            {
                 XmlPullParser parser = Xml.newPullParser();
                 parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
                 parser.setInput(in, null);
@@ -56,8 +57,9 @@ public class GlobalData
             }
             catch (XmlPullParserException ignored)
             {
-
-            } finally {
+            }
+            finally
+            {
                 in.close();
             }
         }

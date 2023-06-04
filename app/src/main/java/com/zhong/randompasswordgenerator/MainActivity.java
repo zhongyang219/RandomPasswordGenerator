@@ -172,24 +172,19 @@ public class MainActivity extends AppCompatActivity
                         .setView(dialog_view)
                         .setPositiveButton("确定", (dialog, which) -> {
                             EditText editText = dialog_view.findViewById(R.id.input_dialog_text_edit);
-                            if (editText != null)
+                            String passwordName = editText.getText().toString();
+                            if (passwordName.isEmpty())
                             {
-                                String passwordName = editText.getText().toString();
-                                if (passwordName.isEmpty())
-                                {
-                                    Toast.makeText(this, "请输入密码名称！", Toast.LENGTH_SHORT).show();
-                                }
-                                else
-                                {                                //添加到密码列表
-                                    GlobalData.getInstance().AddPassword(passwordName, passwordValue);
-                                    String tip = String.format("密码 %s 已经添加到密码列表。", passwordValue);
-                                    Toast.makeText(this, tip, Toast.LENGTH_SHORT).show();
-                                }
+                                Toast.makeText(this, "请输入密码名称！", Toast.LENGTH_SHORT).show();
+                            }
+                            else
+                            {                                //添加到密码列表
+                                GlobalData.getInstance().AddPassword(passwordName, passwordValue);
+                                String tip = String.format("密码 %s 已经添加到密码列表。", passwordValue);
+                                Toast.makeText(this, tip, Toast.LENGTH_SHORT).show();
                             }
                         })
-                        .setNegativeButton("取消", (dialog, which) -> {
-                            dialog.dismiss();
-                        })
+                        .setNegativeButton("取消", (dialog, which) -> dialog.dismiss())
                         .create()
                         .show()
                 ;
