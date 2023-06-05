@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">RandomPasswordGenerator</string>
+    <string name="app_name">密码生成器</string>
     <string name="include_numbers">包含数字</string>
     <string name="generate_password">生成密码</string>
     <string name="include_capital">包含大写字母</string>
