@@ -15,6 +15,8 @@
     <string name="password_length_zero_warning">密码长度不能为0！</string>
     <string name="password_length_exceed_warning">密码的长度不能超过 %d！</string>
     <string name="password_copied_info">密码已经复制到剪贴板。</string>
+    <string name="password_all_copied_info">全部密码已经复制到剪贴板。</string>
+    <string name="password_and_name_copied_info">名称和密码已经复制到剪贴板。</string>
     <string name="password_not_generated_warning">请先生成密码！</string>
     <string name="input_password_name_tip">输入密码名称</string>
     <string name="ok">确定</string>

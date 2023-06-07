@@ -68,9 +68,9 @@ public class PasswordList extends AppCompatActivity
                 stringCopy.append(": ");
                 stringCopy.append(passwordListItem.GetPassword());
                 stringCopy.append('\n');
-                CopyStringToClipBoard(stringCopy.toString());
-                Toast.makeText(this, stringCopy, Toast.LENGTH_SHORT).show();
             }
+            CopyStringToClipBoard(stringCopy.toString());
+            Toast.makeText(this, getString(R.string.password_all_copied_info), Toast.LENGTH_SHORT).show();
         }
 
         else if (id == R.id.deleteAllPassword)
@@ -143,7 +143,7 @@ public class PasswordList extends AppCompatActivity
                 stringCopy.append('\n');
                 stringCopy.append(passwordItem.GetPassword());
                 CopyStringToClipBoard(stringCopy.toString());
-                Toast.makeText(this, stringCopy, Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.password_and_name_copied_info), Toast.LENGTH_SHORT).show();
             }
             //点击了编辑名称
             else if (item.getItemId() == R.id.editPasswordName)
