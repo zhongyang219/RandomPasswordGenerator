@@ -40,7 +40,8 @@ public class GlobalData
 
     void LoadPasswordList(Context context)
     {
-        FileInputStream in = null;
+        passwordList.clear();
+        FileInputStream in;
         try
         {
             in = context.openFileInput("passwordList.xml");
