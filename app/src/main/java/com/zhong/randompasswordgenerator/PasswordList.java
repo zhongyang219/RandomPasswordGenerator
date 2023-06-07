@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
@@ -64,6 +65,20 @@ public class PasswordList extends AppCompatActivity
             return true;
         }
 
+        //选择了菜单中的“复制全部到剪贴板”
+        else if(id == R.id.copyAllPassword)
+        {
+            StringBuilder stringCopy = new StringBuilder();
+            for (PasswordListItem passwordListItem : GlobalData.getInstance().GetPasswordList())
+            {
+                stringCopy.append(passwordListItem.GetName());
+                stringCopy.append(": ");
+                stringCopy.append(passwordListItem.GetPassword());
+                stringCopy.append('\n');
+                CopyStringToClipBoard(stringCopy.toString());
+                Toast.makeText(this, stringCopy, Toast.LENGTH_SHORT).show();
+            }
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -117,6 +132,7 @@ public class PasswordList extends AppCompatActivity
                 stringCopy.append(passwordItem.GetName());
                 stringCopy.append('\n');
                 stringCopy.append(passwordItem.GetPassword());
+                CopyStringToClipBoard(stringCopy.toString());
                 Toast.makeText(this, stringCopy, Toast.LENGTH_SHORT).show();
             }
             //点击了编辑名称
@@ -151,5 +167,12 @@ public class PasswordList extends AppCompatActivity
         });
         //显示菜单
         popupMenu.show();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        getMenuInflater().inflate(R.menu.password_list_main_menu, menu);
+        return true;
     }
 }
