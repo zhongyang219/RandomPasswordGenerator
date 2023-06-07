@@ -94,14 +94,30 @@ public class PasswordList extends AppCompatActivity
             //点击了删除密码
             if (item.getItemId() == R.id.deletePassword)
             {
-                GlobalData.getInstance().GetPasswordList().remove(position);
-                adapter.notifyDataSetChanged();
+                //显示确认删除对话框
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle(getString(R.string.delete_password_inquiry));
+                builder.setPositiveButton(R.string.yes, (dialog, which) -> {
+                    //点击了“是”的时候从列表中删除
+                        GlobalData.getInstance().GetPasswordList().remove(position);
+                        adapter.notifyDataSetChanged();
+                    });
+                builder.setNegativeButton(getString(R.string.no), (dialog, which) -> dialog.dismiss());
+                builder.create().show();
             }
             //点击了复制到剪贴板
             else if (item.getItemId() == R.id.copyPassword)
             {
                 CopyStringToClipBoard(passwordItem.GetPassword());
                 Toast.makeText(this, getString(R.string.password_copied_info), Toast.LENGTH_SHORT).show();
+            }
+            else if (item.getItemId() == R.id.copyNameAndPassword)
+            {
+                StringBuilder stringCopy = new StringBuilder();
+                stringCopy.append(passwordItem.GetName());
+                stringCopy.append('\n');
+                stringCopy.append(passwordItem.GetPassword());
+                Toast.makeText(this, stringCopy, Toast.LENGTH_SHORT).show();
             }
             //点击了编辑名称
             else if (item.getItemId() == R.id.editPasswordName)

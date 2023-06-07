@@ -23,5 +23,10 @@
     <string name="password_added_tip">密码 %s 已经添加到密码列表。</string>
     <string name="delete">删除</string>
     <string name="edit">编辑</string>
-    <string name="copy_to_clipboard">复制到剪贴板</string>
+    <string name="copy_to_clipboard">复制密码到剪贴板</string>
+    <string name="copy_name_and_value_to_clipboard">复制名称和密码到剪贴板</string>
+    <string name="copy_all_to_clipboard">复制全部到剪贴板</string>
+    <string name="delete_password_inquiry">确实要删除选中密码吗？</string>
+    <string name="yes">是</string>
+    <string name="no">否</string>
 </resources>
