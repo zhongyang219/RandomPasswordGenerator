@@ -41,13 +41,6 @@ public class PasswordList extends AppCompatActivity
         ListView listView = (ListView) findViewById(R.id.passwordListView);
         listView.setAdapter(adapter);
 
-//        //设置列表响应点击事件
-//        listView.setOnItemClickListener((parent, view, position, id) -> {
-//            PasswordListItem passwordItem = GlobalData.getInstance().GetPasswordList().get(position);
-//            //复制密码到剪贴版
-//            CopyStringToClipBoard(passwordItem.GetPassword());
-//        });
-
         //设置列表响应长按事件
         listView.setOnItemLongClickListener((parent, view, position, id) -> {
             ShowPopupMenu(view, position);
@@ -78,6 +71,22 @@ public class PasswordList extends AppCompatActivity
                 CopyStringToClipBoard(stringCopy.toString());
                 Toast.makeText(this, stringCopy, Toast.LENGTH_SHORT).show();
             }
+        }
+
+        else if (id == R.id.deleteAllPassword)
+        {
+            //显示确认删除对话框
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle(getString(R.string.delete_all_password_warning));
+            builder.setPositiveButton(R.string.yes, (dialog, which) -> {
+                //点击了“是”的时候从列表中删除
+                GlobalData.getInstance().GetPasswordList().clear();
+                adapter.notifyDataSetChanged();
+                GlobalData.getInstance().SavePasswordList(this);
+            });
+            builder.setNegativeButton(getString(R.string.no), (dialog, which) -> dialog.dismiss());
+            builder.create().show();
+
         }
         return super.onOptionsItemSelected(item);
     }
@@ -114,9 +123,10 @@ public class PasswordList extends AppCompatActivity
                 builder.setTitle(getString(R.string.delete_password_inquiry));
                 builder.setPositiveButton(R.string.yes, (dialog, which) -> {
                     //点击了“是”的时候从列表中删除
-                        GlobalData.getInstance().GetPasswordList().remove(position);
-                        adapter.notifyDataSetChanged();
-                    });
+                    GlobalData.getInstance().GetPasswordList().remove(position);
+                    adapter.notifyDataSetChanged();
+                    GlobalData.getInstance().SavePasswordList(this);
+                });
                 builder.setNegativeButton(getString(R.string.no), (dialog, which) -> dialog.dismiss());
                 builder.create().show();
             }
@@ -156,6 +166,7 @@ public class PasswordList extends AppCompatActivity
                         {
                             passwordItem.SetName(passwordName);
                             adapter.notifyDataSetChanged();
+                            GlobalData.getInstance().SavePasswordList(this);
                         }
                     })
                     .setNegativeButton(getString(R.string.cancel), (dialog, which) -> dialog.dismiss())

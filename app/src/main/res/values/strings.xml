@@ -29,4 +29,6 @@
     <string name="delete_password_inquiry">确实要删除选中密码吗？</string>
     <string name="yes">是</string>
     <string name="no">否</string>
+    <string name="delete_all_password">删除所有密码</string>
+    <string name="delete_all_password_warning">确实要删除所有密码？删除后将无法恢复！</string>
 </resources>
