@@ -9,6 +9,9 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import java.text.DateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class PasswordListAdapter extends ArrayAdapter<PasswordListItem>
@@ -33,6 +36,7 @@ public class PasswordListAdapter extends ArrayAdapter<PasswordListItem>
             viewHolder = new ViewHolder();
             viewHolder.passwordNameView = (TextView) view.findViewById(R.id.password_name);
             viewHolder.passwordValueView = (TextView) view.findViewById(R.id.password_value);
+            viewHolder.passwordCreateTimeView = (TextView) view.findViewById(R.id.password_create_time);
             view.setTag(viewHolder);
         }
         else
@@ -42,6 +46,8 @@ public class PasswordListAdapter extends ArrayAdapter<PasswordListItem>
         }
         viewHolder.passwordNameView.setText(listData.GetName());
         viewHolder.passwordValueView.setText(listData.GetPassword());
+        Date date = new Date(listData.GetCreateTime());
+        viewHolder.passwordCreateTimeView.setText(DateFormat.getDateTimeInstance().format(date));
         return view;
     }
 
@@ -49,5 +55,6 @@ public class PasswordListAdapter extends ArrayAdapter<PasswordListItem>
     {
         TextView passwordNameView;
         TextView passwordValueView;
+        TextView passwordCreateTimeView;
     }
 }

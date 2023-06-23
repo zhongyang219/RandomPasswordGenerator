@@ -35,7 +35,10 @@ public class GlobalData
 
     void AddPassword(String passwordName, String passwordValue)
     {
-        passwordList.add(new PasswordListItem(passwordName, passwordValue));
+        PasswordListItem newItem = new PasswordListItem(passwordName, passwordValue);
+        //获取当前时间
+        newItem.SetCreateTime(System.currentTimeMillis());
+        passwordList.add(newItem);
     }
 
     void LoadPasswordList(Context context)
@@ -64,7 +67,16 @@ public class GlobalData
                             {
                                 String passwordName = parser.getAttributeValue(null, "name");
                                 String passwordValue = parser.getAttributeValue(null, "value");
+                                String passwordCreateTime = parser.getAttributeValue(null, "createTime");
                                 passwordItem = new PasswordListItem(passwordName, passwordValue);
+                                try
+                                {
+                                    passwordItem.SetCreateTime(Long.parseLong(passwordCreateTime));
+                                }
+                                catch (NumberFormatException e)
+                                {
+                                    passwordItem.SetCreateTime(0);
+                                }
                             }
                             break;
                         case XmlPullParser.END_TAG:
@@ -109,7 +121,8 @@ public class GlobalData
             xmlContents.append("<passwordList>\n");
             for (PasswordListItem data : passwordList )
             {
-                String lineStr = String.format("  <password name=\"%s\" value=\"%s\"/>\n", data.GetName(), data.GetPassword());
+                String lineStr = String.format("  <password name=\"%s\" value=\"%s\" createTime=\"%s\"/>\n",
+                        data.GetName(), data.GetPassword(), data.GetCreateTime());
                 xmlContents.append(lineStr);
             }
             xmlContents.append("</passwordList>\n");
