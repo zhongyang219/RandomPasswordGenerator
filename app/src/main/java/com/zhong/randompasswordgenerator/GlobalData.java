@@ -68,7 +68,9 @@ public class GlobalData
                                 String passwordName = parser.getAttributeValue(null, "name");
                                 String passwordValue = parser.getAttributeValue(null, "value");
                                 String passwordCreateTime = parser.getAttributeValue(null, "createTime");
-                                passwordItem = new PasswordListItem(passwordName, passwordValue);
+                                String passwordNameDecoded = Utilities.Base64Decode(passwordName);
+                                String passwordValueDecode = Utilities.Base64Decode(passwordValue);
+                                passwordItem = new PasswordListItem(passwordNameDecoded, passwordValueDecode);
                                 try
                                 {
                                     passwordItem.SetCreateTime(Long.parseLong(passwordCreateTime));
@@ -121,8 +123,10 @@ public class GlobalData
             xmlContents.append("<passwordList>\n");
             for (PasswordListItem data : passwordList )
             {
+                String passwordNameEncoded = Utilities.Base64Encode(data.GetName());
+                String passwordEncoded = Utilities.Base64Encode(data.GetPassword());
                 String lineStr = String.format("  <password name=\"%s\" value=\"%s\" createTime=\"%s\"/>\n",
-                        data.GetName(), data.GetPassword(), data.GetCreateTime());
+                        passwordNameEncoded, passwordEncoded, data.GetCreateTime());
                 xmlContents.append(lineStr);
             }
             xmlContents.append("</passwordList>\n");
