@@ -41,12 +41,13 @@ public class GlobalData
         passwordList.add(newItem);
     }
 
-    void LoadPasswordList(Context context)
+    void LoadPasswordList()
     {
         passwordList.clear();
         FileInputStream in;
         try
         {
+            Context context = PasswordGeneratorApplication.getInstance().getApplicationContext();
             in = context.openFileInput("passwordList.xml");
             //解析xml
             try
@@ -110,12 +111,13 @@ public class GlobalData
         }
     }
 
-    void SavePasswordList(Context context)
+    void SavePasswordList()
     {
         FileOutputStream out = null;
         BufferedWriter writer = null;
         try
         {
+            Context context = PasswordGeneratorApplication.getInstance().getApplicationContext();
             out = context.openFileOutput("passwordList.xml", Context.MODE_PRIVATE);
             writer = new BufferedWriter(new OutputStreamWriter(out));
             //生成字符串

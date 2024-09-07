@@ -48,6 +48,7 @@ public class PasswordList extends AppCompatActivity
         });
     }
 
+    //响应Option菜单
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item)
     {
@@ -82,7 +83,7 @@ public class PasswordList extends AppCompatActivity
                 //点击了“是”的时候从列表中删除
                 GlobalData.getInstance().GetPasswordList().clear();
                 adapter.notifyDataSetChanged();
-                GlobalData.getInstance().SavePasswordList(this);
+                GlobalData.getInstance().SavePasswordList();
             });
             builder.setNegativeButton(getString(R.string.no), (dialog, which) -> dialog.dismiss());
             builder.create().show();
@@ -106,57 +107,49 @@ public class PasswordList extends AppCompatActivity
         myClipboard.setPrimaryClip(myClip);
     }
 
-    private void ShowPopupMenu(View view, int position)
+    //响应菜单项
+    private void OnListMenuItemSelected(int itemId, int position)
     {
-        //定义PopupMenu对象
-        PopupMenu popupMenu = new PopupMenu(this, view);
-        //设置PopupMenu对象的布局
-        popupMenu.getMenuInflater().inflate(R.menu.password_list_menu, popupMenu.getMenu());
-        //设置PopupMenu的点击事件
-        popupMenu.setOnMenuItemClickListener(item -> {
-            PasswordListItem passwordItem = GlobalData.getInstance().GetPasswordList().get(position);
-            //点击了删除密码
-            if (item.getItemId() == R.id.deletePassword)
-            {
-                //显示确认删除对话框
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle(getString(R.string.delete_password_inquiry));
-                builder.setPositiveButton(R.string.yes, (dialog, which) -> {
-                    //点击了“是”的时候从列表中删除
-                    GlobalData.getInstance().GetPasswordList().remove(position);
-                    adapter.notifyDataSetChanged();
-                    GlobalData.getInstance().SavePasswordList(this);
-                });
-                builder.setNegativeButton(getString(R.string.no), (dialog, which) -> dialog.dismiss());
-                builder.create().show();
-            }
-            //点击了复制到剪贴板
-            else if (item.getItemId() == R.id.copyPassword)
-            {
-                CopyStringToClipBoard(passwordItem.GetPassword());
-                Toast.makeText(this, getString(R.string.password_copied_info), Toast.LENGTH_SHORT).show();
-            }
-            else if (item.getItemId() == R.id.copyNameAndPassword)
-            {
-                StringBuilder stringCopy = new StringBuilder();
-                stringCopy.append(passwordItem.GetName());
-                stringCopy.append('\n');
-                stringCopy.append(passwordItem.GetPassword());
-                CopyStringToClipBoard(stringCopy.toString());
-                Toast.makeText(this, getString(R.string.password_and_name_copied_info), Toast.LENGTH_SHORT).show();
-            }
-            //点击了编辑名称
-            else if (item.getItemId() == R.id.editPasswordName)
-            {
-                View dialog_view = getLayoutInflater().inflate(R.layout.input_dialog_view, null);
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle(getString(R.string.input_password_name_tip))
-                        .setView(dialog_view);
-                //获取对话框中的文本输入框
-                EditText editText = dialog_view.findViewById(R.id.input_dialog_text_edit);
-                //向文本输入框中填入原来的名称
-                editText.setText(passwordItem.GetName());
-                builder.setPositiveButton(getString(R.string.ok), (dialog, which) -> {
+        PasswordListItem passwordItem = GlobalData.getInstance().GetPasswordList().get(position);
+        //点击了删除密码
+        if (itemId == R.id.deletePassword)
+        {
+            //显示确认删除对话框
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle(getString(R.string.delete_password_inquiry));
+            builder.setPositiveButton(R.string.yes, (dialog, which) -> {
+                //点击了“是”的时候从列表中删除
+                GlobalData.getInstance().GetPasswordList().remove(position);
+                adapter.notifyDataSetChanged();
+                GlobalData.getInstance().SavePasswordList();
+            });
+            builder.setNegativeButton(getString(R.string.no), (dialog, which) -> dialog.dismiss());
+            builder.create().show();
+        }
+        //点击了复制到剪贴板
+        else if (itemId == R.id.copyPassword)
+        {
+            CopyStringToClipBoard(passwordItem.GetPassword());
+            Toast.makeText(this, getString(R.string.password_copied_info), Toast.LENGTH_SHORT).show();
+        }
+        else if (itemId == R.id.copyNameAndPassword)
+        {
+            String stringCopy = passwordItem.GetName() + '\n' + passwordItem.GetPassword();
+            CopyStringToClipBoard(stringCopy);
+            Toast.makeText(this, getString(R.string.password_and_name_copied_info), Toast.LENGTH_SHORT).show();
+        }
+        //点击了编辑名称
+        else if (itemId == R.id.editPasswordName)
+        {
+            View dialog_view = getLayoutInflater().inflate(R.layout.input_dialog_view, null);
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle(getString(R.string.input_password_name_tip))
+                    .setView(dialog_view);
+            //获取对话框中的文本输入框
+            EditText editText = dialog_view.findViewById(R.id.input_dialog_text_edit);
+            //向文本输入框中填入原来的名称
+            editText.setText(passwordItem.GetName());
+            builder.setPositiveButton(getString(R.string.ok), (dialog, which) -> {
                         String passwordName = editText.getText().toString();
                         if (passwordName.isEmpty())
                         {
@@ -166,14 +159,25 @@ public class PasswordList extends AppCompatActivity
                         {
                             passwordItem.SetName(passwordName);
                             adapter.notifyDataSetChanged();
-                            GlobalData.getInstance().SavePasswordList(this);
+                            GlobalData.getInstance().SavePasswordList();
                         }
                     })
                     .setNegativeButton(getString(R.string.cancel), (dialog, which) -> dialog.dismiss())
                     .create()
                     .show()
-                ;
-            }
+            ;
+        }
+    }
+
+    private void ShowPopupMenu(View view, int position)
+    {
+        //定义PopupMenu对象
+        PopupMenu popupMenu = new PopupMenu(this, view);
+        //设置PopupMenu对象的布局
+        popupMenu.getMenuInflater().inflate(R.menu.password_list_menu, popupMenu.getMenu());
+        //设置PopupMenu的点击事件
+        popupMenu.setOnMenuItemClickListener(item -> {
+            OnListMenuItemSelected(item.getItemId(), position);
             return true;
         });
         //显示菜单

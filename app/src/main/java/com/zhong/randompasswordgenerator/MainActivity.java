@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity
         m_result_edit = findViewById(R.id.editResult);
 
         LoadConfig();
-        GlobalData.getInstance().LoadPasswordList(this);
+        GlobalData.getInstance().LoadPasswordList();
     }
 
     @SuppressLint("DefaultLocale")
@@ -189,7 +189,8 @@ public class MainActivity extends AppCompatActivity
                                 GlobalData.getInstance().AddPassword(passwordName, passwordValue);
                                 String tip = getString(R.string.password_added_tip, passwordValue);
                                 Toast.makeText(this, tip, Toast.LENGTH_SHORT).show();
-                                GlobalData.getInstance().SavePasswordList(this);}
+                                GlobalData.getInstance().SavePasswordList();
+                            }
                         })
                         .setNegativeButton(getString(R.string.cancel), (dialog, which) -> dialog.dismiss())
                         .create()

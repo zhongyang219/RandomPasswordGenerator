@@ -16,7 +16,7 @@ import java.util.List;
 
 public class PasswordListAdapter extends ArrayAdapter<PasswordListItem>
 {
-    private int resourceId;
+    private final int resourceId;
     public PasswordListAdapter(@NonNull Context context, int resource, @NonNull List<PasswordListItem> objects)
     {
         super(context, resource, objects);
