@@ -1,35 +1,27 @@
 package com.zhong.randompasswordgenerator;
 
 import android.util.Base64;
-import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 
 public class Utilities
 {
     public static String Base64Encode(String content)
     {
-        try
-        {
-            byte[] contentByte = content.getBytes("UTF-8");
-            return Base64.encodeToString(contentByte, Base64.DEFAULT);
-        }
-        catch (UnsupportedEncodingException e)
-        {
-            e.printStackTrace();
-        }
-        return "";
+        byte[] contentByte = content.getBytes(StandardCharsets.UTF_8);
+        return Base64.encodeToString(contentByte, Base64.DEFAULT);
     }
 
     public static String Base64Decode(String content)
     {
-        byte[] contentByte = Base64.decode(content, Base64.DEFAULT);
+        byte[] contentByte;
         try
         {
-            return new String(contentByte, "UTF-8");
+            contentByte = Base64.decode(content, Base64.DEFAULT);
         }
-        catch (UnsupportedEncodingException e)
+        catch (IllegalArgumentException e)
         {
-            e.printStackTrace();
+            return content;
         }
-        return "";
+        return new String(contentByte, StandardCharsets.UTF_8);
     }
 }

@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity
                 Toast.makeText(this, getString(R.string.input_password_length_warning), Toast.LENGTH_SHORT).show();
                 return;
             }
-            if(m_option_check.size()==0)
+            if(m_option_check.isEmpty())
             {
                 Toast.makeText(this, getString(R.string.select_character_type_warning), Toast.LENGTH_SHORT).show();
                 return;

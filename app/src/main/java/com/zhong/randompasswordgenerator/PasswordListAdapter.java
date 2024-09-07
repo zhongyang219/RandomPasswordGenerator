@@ -51,7 +51,7 @@ public class PasswordListAdapter extends ArrayAdapter<PasswordListItem>
         return view;
     }
 
-    class ViewHolder
+    static class ViewHolder
     {
         TextView passwordNameView;
         TextView passwordValueView;
