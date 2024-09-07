@@ -137,15 +137,23 @@ public class MainActivity extends AppCompatActivity
             m_result_edit.setText(password.toString());
             SaveConfig();
         }
+        //点击了复制
         else if(id == R.id.copy)
         {
             ClipboardManager myClipboard;
             myClipboard = (ClipboardManager)getSystemService(CLIPBOARD_SERVICE);
             ClipData myClip;
             String text = m_result_edit.getText().toString();
-            myClip = ClipData.newPlainText("text", text);
-            myClipboard.setPrimaryClip(myClip);
-            Toast.makeText(this, getString(R.string.password_copied_info), Toast.LENGTH_SHORT).show();
+            if (text.isEmpty())
+            {
+                Toast.makeText(this, getString(R.string.password_not_generated_warning), Toast.LENGTH_SHORT).show();
+            }
+            else
+            {
+                myClip = ClipData.newPlainText("text", text);
+                myClipboard.setPrimaryClip(myClip);
+                Toast.makeText(this, getString(R.string.password_copied_info), Toast.LENGTH_SHORT).show();
+            }
         }
 
         //点击了“密码列表”
