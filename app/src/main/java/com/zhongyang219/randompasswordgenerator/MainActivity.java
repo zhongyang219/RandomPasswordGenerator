@@ -1,4 +1,4 @@
-package com.zhong.randompasswordgenerator;
+package com.zhongyang219.randompasswordgenerator;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -17,20 +17,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.ArrayList;
 import java.util.Random;
 
-//用于表示字符类型的枚举
-enum CharType
-{
-    CK_NUMBERS,         //数字
-    CK_CAPITAL,         //大写字母
-    CK_LOWERCASE,       //小写字母
-    CK_SPECIAL_CHAR       //特殊字符
-}
-
-
 public class MainActivity extends AppCompatActivity
 {
+    //用于表示字符类型的枚举
+    private enum CharType
+    {
+        CK_NUMBERS,         //数字
+        CK_CAPITAL,         //大写字母
+        CK_LOWERCASE,       //小写字母
+        CK_SPECIAL_CHAR       //特殊字符
+    }
+
     //私有的字段
-    protected ArrayList<CharType> m_option_check = new ArrayList<>();
+    private final ArrayList<CharType> m_option_check = new ArrayList<>();
     final String m_specialChar = "~!@#$%^&*()_-+={}[]|\\<>/?";   //特殊字符
     Random m_random = new Random();
     final int MAX_LENGTH = 128;

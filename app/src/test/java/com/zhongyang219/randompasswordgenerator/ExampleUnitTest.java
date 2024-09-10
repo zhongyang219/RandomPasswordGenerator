@@ -1,4 +1,4 @@
-package com.zhong.randompasswordgenerator;
+package com.zhongyang219.randompasswordgenerator;
 
 import org.junit.Test;
 

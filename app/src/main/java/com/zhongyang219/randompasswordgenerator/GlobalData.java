@@ -1,4 +1,4 @@
-package com.zhong.randompasswordgenerator;
+package com.zhongyang219.randompasswordgenerator;
 
 import android.content.Context;
 import android.util.Xml;
